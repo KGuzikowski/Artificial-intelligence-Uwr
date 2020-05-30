@@ -17,10 +17,8 @@ class Commando(zad4.Commando):
         Note: F = g = self.depth is just an ordinary BFS
         """
         if self.non_admissible is True:
-            # Ex 6.
             state.F = state.depth +  sum([self.dists[s] for s in state.state])
         else:
-            # Ex 5.
             state.F = state.depth + max([self.dists[s] for s in state.state])
         return state
 

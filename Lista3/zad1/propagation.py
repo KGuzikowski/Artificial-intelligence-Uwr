@@ -38,10 +38,6 @@ class Nonogram():
         self.isTransposed = not self.isTransposed
 
     def getDomain(self, row_desc, row_len):
-        """
-        For a given row (col) description and its length,
-        generate a row's domain as a list of tuples
-        """
         row_desc = list(row_desc)
 
         if len(row_desc) == 1:
@@ -67,26 +63,10 @@ class Nonogram():
         return {tuple(a) for a in ans}
 
     def getDomains(self):
-        """
-        For each row and col description retrun a set of tuples
-        of their domains (rows - domain[0]; cols - domain[1])
-        """
         return ([self.getDomain(row, self.c) for row in self.row_desc],
                 [self.getDomain(col, self.r) for col in self.col_desc])
 
     def intersectDomain(self, dom, what=1):
-        """
-        `dom` - a domain of a row
-        >>> nono = Nonogram(0, 0, row_desc=[], col_desc=[])
-        >>> nono.intersectDomain({(1, 0, 0), (1, 1, 0), (1, 1, 1)})
-        [1, 0, 0]
-        >>> nono.intersectDomain({(1, 0), (0, 1), (1, 1)})
-        [0, 0]
-        >>> nono.intersectDomain({(0, 1, 1, 1, 1, 1), (1, 1, 1, 1, 1, 0)})
-        [0, 1, 1, 1, 1, 0]
-        >>> nono.intersectDomain({(1, 0, 0), (1, 1, 0), (1, 1, 0)}, what=0)
-        [1, 1, 0]
-        """
         dom = list(dom)
         intersect = list(dom[0])
         for i in range(1, len(dom)):
@@ -105,37 +85,25 @@ class Nonogram():
         return True
 
     def constrainDomain(self, pixels, what):
-        """
-        If a pixel (i, j) has value `what` in a member of the domain of j-th
-        column, then the member must be removed from the domain
-        """
         for i, j in pixels:
             toRemove = []
             for col in self.colDomain[j]:
-                # This pixel has just been turned on (off), so we
-                # have to remove all corresponding pixels, which
-                # are disabled (enabled) from column domain
                 if col[i] == what:
                     toRemove.append(col)
             for rm in toRemove:
                 self.colDomain[j] -= {rm}
 
     def ac3(self):
-
         while self.isSolved() is False:
             pixelsToBeOn = set()
             pixelsToBeOff = set()
 
             for i, row in enumerate(self.rowDomain):
-
-                # Having intersected row domains, we got a
-                # set of pixels that surely must be on
                 for j, r in enumerate(self.intersectDomain(row)):
                     if r == 1:
                         self.nono[i][j] = 1
                         pixelsToBeOn |= {(i, j)}
 
-                # Intersect domains, but considering 0s (it's OR on row domain)
                 for j, r in enumerate(self.intersectDomain(row, what=0)):
                     if r == 0:
                         self.nono[i][j] = 0
