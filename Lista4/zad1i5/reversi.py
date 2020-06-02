@@ -1,3 +1,6 @@
+'''
+run with PyPy for better performance
+'''
 import random, math
 import copy
 from heapq import heappush, heappop
