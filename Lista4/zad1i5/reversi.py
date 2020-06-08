@@ -291,7 +291,7 @@ def smart_agent_heuristic_queue(board, passes, free, turn):
     return best_move
 
 def print_board():
-    # system('clear')
+    system('clear')
     for i in range(size):
         line = ''
         for j in range(size):
@@ -302,7 +302,7 @@ def print_board():
             else:
                 line += "● "
         print(line)
-    # time.sleep(0.4)
+    time.sleep(0.4)
 
 def result():
     white_counter = 0
@@ -320,10 +320,9 @@ def result():
     else:
         return 0
 
-
 start_t = time.time()
 counter = 0
-GAMES = 100
+GAMES = 1000
 for i in range(GAMES):
     board = [[0, 0, 0, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0, 0, 0, 0],
@@ -339,7 +338,7 @@ for i in range(GAMES):
     while not is_terminal(free, passes):
         move = 0
         if turn == 1:
-            move = smart_agent_heuristic_queue(board, passes, free, turn)
+            move = smart_agent(board, passes, free, turn)
             if move == 0 and passes[0] != 1:
                 passes = (1, passes[1])
         else:
