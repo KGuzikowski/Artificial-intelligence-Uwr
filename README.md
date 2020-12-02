@@ -1,4 +1,4 @@
-# Sztuczna-inteligencja---UWR
-Zadania ze sztucznej inteligencji w ramach UWr
+# Artificial intelligence course - Uwr
+Tasks solutions for AI course at uni.
 
-W folderze Lista2/zad1 jest plik pt. csp.py. Jest to prosty silknik rozwiązywania problemów więzowych napisany w Pythonie.
+In folder Lista2/zad1 you can find csp.py file which is a csp solver.
